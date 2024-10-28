@@ -1,0 +1,18 @@
+/* Remove the default background and any unwanted styling for arrows */
+.custom-slick-prev,
+.custom-slick-next {
+    @apply w-6 h-12 flex items-center justify-center text-black z-10;
+}
+
+.custom-slick-prev:hover,
+.custom-slick-next:hover {
+    @apply text-gray-700;
+    /* Change color on hover, if desired */
+}
+
+.custom-slick-prev:before,
+.custom-slick-next:before {
+    content: none !important;
+    /* color: black; */
+    /* Ensure default content is removed */
+}
