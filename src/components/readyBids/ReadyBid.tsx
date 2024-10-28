@@ -156,7 +156,6 @@ const ReadyBid = () => {
             עריכה
           </Button>
         )}
-        <h1>ksdfljlksdfl;kdsjf;lkdsjflk</h1>
       </div>
     </>
   );
