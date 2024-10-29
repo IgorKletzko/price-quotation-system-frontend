@@ -2,16 +2,10 @@ import React from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import "lightgallery/css/lightgallery.css";
-import "lightgallery/css/lg-thumbnail.css";
-import "lightgallery/css/lg-fullscreen.css";
-import "lightgallery/css/lg-zoom.css";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import LightGallery from "lightgallery/react";
-import lgThumbnail from "lightgallery/plugins/thumbnail";
-import lgFullscreen from "lightgallery/plugins/fullscreen";
-import lgZoom from "lightgallery/plugins/zoom";
 import { useIsSmallScreen } from "../hooks/MediaQueryHookl"
+import "react-photo-view/dist/react-photo-view.css";
+import { PhotoProvider, PhotoView } from "react-photo-view";
 
 
 
@@ -72,26 +66,22 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
   };
 
   return (
-    <div className="carousel-container w-full px-4">
-      {images.length > 0 ? (
-        <>
-          {/* LightGallery setup */}
-          <LightGallery
-            speed={500}
-            plugins={[lgThumbnail, lgFullscreen, lgZoom]}
-          >
+    <PhotoProvider>
+      <div className="carousel-container w-full px-4">
+        {images.length > 0 ? (
+          <>
             <Slider {...settings}>
               {images.map((image, index) => (
                 <div key={index} className="relative">
                   <div className="rounded-md object-cover h-[250px] sm:h-[600px] w-full block">
                     {isSmallScreen ? (
-                      <a href={image}>
+                      <PhotoView src={image}>
                         <img
                           src={image}
                           alt={`Slide ${index}`}
                           className="w-full h-full object-cover rounded-lg cursor-pointer"
                         />
-                      </a>
+                      </PhotoView>
                     ) : (
                       <img
                         src={image}
@@ -111,12 +101,12 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
                 </div>
               ))}
             </Slider>
-          </LightGallery>
-        </>
-      ) : (
-        <p className="text-center">No images to display</p>
-      )}
-    </div>
+          </>
+        ) : (
+          <p className="text-center">No images to display</p>
+        )}
+      </div>
+    </PhotoProvider>
   );
 };
 
