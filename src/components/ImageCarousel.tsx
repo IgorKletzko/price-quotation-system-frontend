@@ -19,11 +19,15 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
 }) => {
 
   const [isModalOpen, setModalOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState<string[] | null>(null);
+
   
-     const handleImageClick = () => {
-         if (window.innerWidth <= 640) {
-           setModalOpen(true);
-         }
+     const handleImageClick = (image: string) => {
+       if (window.innerWidth <= 640) {
+         setSelectedImage([image]); // Set selectedImage as an array with the clicked image
+
+         setModalOpen(true);
+       }
      };
 
 
@@ -74,7 +78,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
     <div className="carousel-container w-full px-4">
       <ImageModal
         isOpen={isModalOpen}
-        imageSrc={images}
+        imageSrc={selectedImage || []}
         onClose={() => setModalOpen(false)}
       />
       {images.length > 0 ? (
@@ -85,7 +89,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
                 src={image}
                 alt={`Slide ${index}`}
                 className="rounded-md object-cover h-[250px] sm:h-[600px] w-full block"
-                onClick={() => handleImageClick()}
+                onClick={() => handleImageClick(image)}
               />
               {showDeleteButtons && handleRemoveImage && (
                 <button

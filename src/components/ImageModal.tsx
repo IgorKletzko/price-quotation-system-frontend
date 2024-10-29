@@ -34,8 +34,9 @@ const ImageModal: React.FC<ImageModalProps> = ({
         >
           X
         </button>
-        <ImageCarousel images={imageSrc}/>
-       
+        <div className="h-full flex justify-center items-center">
+          <ImageCarousel images={imageSrc} />
+        </div>
       </div>
     </div>
   );

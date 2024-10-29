@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Slider from "react-slick";
-import "./carousel.css"
+import "./carousel.css";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import ImageModal from "./ImageModal";
 
@@ -16,48 +16,49 @@ interface CarouselProps {
   }[];
 }
 
-
 const SmallCarousel: React.FC<CarouselProps> = ({
   images = [],
   slidesToShow = 1,
   responsive = [],
 }) => {
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState<string[] | null>(null);
 
-   const [isModalOpen, setModalOpen] = useState(false);
+  const handleImageClick = (image: string) => {
+    setSelectedImage([image]); // Set selectedImage as an array with the clicked image
+    setModalOpen(true);
+  };
 
-   const handleImageClick = () => {
-     setModalOpen(true);
-   };
+  const CustomPrevArrow = (props: any) => {
+    const { className, style, onClick } = props;
+    return (
+      <div
+        className={`${className} custom-slick-prev`}
+        style={{ ...style, display: "block" }}
+        onClick={onClick}
+      >
+        <span>
+          <ArrowRight />
+        </span>
+      </div>
+    );
+  };
 
-   const CustomPrevArrow = (props: any) => {
-     const { className, style, onClick } = props;
-     return (
-       <div
-         className={`${className} custom-slick-prev`}
-         style={{ ...style, display: "block" }}
-         onClick={onClick}
-       >
-         <span>
-           <ArrowRight />
-         </span>
-       </div>
-     );
-   };
+  const CustomNextArrow = (props: any) => {
+    const { className, style, onClick } = props;
+    return (
+      <div
+        className={`${className} custom-slick-next`}
+        style={{ ...style, display: "block" }}
+        onClick={onClick}
+      >
+        <span>
+          <ArrowLeft />
+        </span>
+      </div>
+    );
+  };
 
-   const CustomNextArrow = (props: any) => {
-     const { className, style, onClick } = props;
-     return (
-       <div
-         className={`${className} custom-slick-next`}
-         style={{ ...style, display: "block" }}
-         onClick={onClick}
-       >
-         <span>
-           <ArrowLeft />
-         </span>
-       </div>
-     );
-   };
   const settings = {
     dots: true,
     infinite: true,
@@ -69,7 +70,7 @@ const SmallCarousel: React.FC<CarouselProps> = ({
     prevArrow: images.length > 0 ? <CustomPrevArrow /> : undefined,
     responsive: [
       {
-        breakpoint: 768, // Adjust this value based on your definition of small screens
+        breakpoint: 768,
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
@@ -83,7 +84,7 @@ const SmallCarousel: React.FC<CarouselProps> = ({
     <div className="carousel-container mx-auto my-4 w-full max-w-7xl px-6">
       <ImageModal
         isOpen={isModalOpen}
-        imageSrc={images}
+        imageSrc={selectedImage || []}
         onClose={() => setModalOpen(false)}
       />
       {images.length > 0 ? (
@@ -97,7 +98,7 @@ const SmallCarousel: React.FC<CarouselProps> = ({
                 src={image}
                 alt={`Slide ${index}`}
                 className="w-full h-full object-cover rounded-lg"
-                onClick={() => handleImageClick()}
+                onClick={() => handleImageClick(image)}
               />
             </div>
           ))}
