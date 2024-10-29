@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import Slider from "react-slick";
+import "react-photo-view/dist/react-photo-view.css";
+import { PhotoProvider, PhotoView } from "react-photo-view";
 import "./carousel.css";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import ImageModal from "./ImageModal";
 
 interface CarouselProps {
   images: string[] | undefined;
@@ -21,14 +22,6 @@ const SmallCarousel: React.FC<CarouselProps> = ({
   slidesToShow = 1,
   responsive = [],
 }) => {
-  const [isModalOpen, setModalOpen] = useState(false);
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
-
-  const handleImageClick = (image: string) => {
-    setSelectedImage(image); // Set selectedImage as an array with the clicked image
-    setModalOpen(true);
-  };
-
   const CustomPrevArrow = (props: any) => {
     const { className, style, onClick } = props;
     return (
@@ -81,32 +74,30 @@ const SmallCarousel: React.FC<CarouselProps> = ({
   };
 
   return (
-    <div className="carousel-container mx-auto my-4 w-full max-w-7xl px-6">
-      <ImageModal
-        isOpen={isModalOpen}
-        imageSrc={selectedImage}
-        onClose={() => setModalOpen(false)}
-      />
-      {images.length > 0 ? (
-        <Slider {...settings}>
-          {images.map((image, index) => (
-            <div
-              key={index}
-              className="carousel-slide flex items-center px-1 justify-center h-[240px] bg-gray-200 rounded-lg shadow-lg"
-            >
-              <img
-                src={image}
-                alt={`Slide ${index}`}
-                className="w-full h-full object-cover rounded-lg"
-                onClick={() => handleImageClick(image)}
-              />
-            </div>
-          ))}
-        </Slider>
-      ) : (
-        <p className="text-center">No images to display</p>
-      )}
-    </div>
+    <PhotoProvider>
+      <div className="carousel-container mx-auto my-4 w-full max-w-7xl px-6">
+        {images.length > 0 ? (
+          <Slider {...settings}>
+            {images.map((image, index) => (
+              <div
+                key={index}
+                className="carousel-slide flex items-center px-1 justify-center h-[240px] bg-gray-200 rounded-lg shadow-lg"
+              >
+                <PhotoView src={image}>
+                  <img
+                    src={image}
+                    alt={`Slide ${index}`}
+                    className="w-full h-full object-cover rounded-lg cursor-pointer"
+                  />
+                </PhotoView>
+              </div>
+            ))}
+          </Slider>
+        ) : (
+          <p className="text-center">No images to display</p>
+        )}
+      </div>
+    </PhotoProvider>
   );
 };
 
