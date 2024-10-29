@@ -1,10 +1,19 @@
-import React, { useState } from "react";
+import React from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import "./carousel.css";
+import "lightgallery/css/lightgallery.css";
+import "lightgallery/css/lg-thumbnail.css";
+import "lightgallery/css/lg-fullscreen.css";
+import "lightgallery/css/lg-zoom.css";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import ImageModal from "./ImageModal";
+import LightGallery from "lightgallery/react";
+import lgThumbnail from "lightgallery/plugins/thumbnail";
+import lgFullscreen from "lightgallery/plugins/fullscreen";
+import lgZoom from "lightgallery/plugins/zoom";
+import { useIsSmallScreen } from "../hooks/MediaQueryHookl"
+
+
 
 interface ImageCarouselProps {
   images: string[];
@@ -17,22 +26,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
   handleRemoveImage,
   showDeleteButtons,
 }) => {
-
-  const [isModalOpen, setModalOpen] = useState(false);
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
-
-
-
-  
-     const handleImageClick = (image: string) => {
-       if (window.innerWidth <= 640) {
-         setSelectedImage(image); // Set selectedImage as an array with the clicked image
-
-
-         setModalOpen(true);
-       }
-     };
-
+  const isSmallScreen = useIsSmallScreen();
 
   const CustomPrevArrow = (props: any) => {
     const { className, style, onClick } = props;
@@ -66,7 +60,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
 
   const settings = {
     dots: true,
-    infinite: images.length > 1, // Only allow infinite scroll if more than 1 image
+    infinite: images.length > 1,
     speed: 1000,
     slidesToShow: 1,
     slidesToScroll: 1,
@@ -79,32 +73,46 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
 
   return (
     <div className="carousel-container w-full px-4">
-      <ImageModal
-        isOpen={isModalOpen}
-        imageSrc={selectedImage}
-        onClose={() => setModalOpen(false)}
-      />
       {images.length > 0 ? (
-        <Slider {...settings}>
-          {images.map((image, index) => (
-            <div key={index} className="relative">
-              <img
-                src={image}
-                alt={`Slide ${index}`}
-                className="rounded-md object-cover h-[250px] sm:h-[600px] w-full block"
-                onClick={() => handleImageClick(image)}
-              />
-              {showDeleteButtons && handleRemoveImage && (
-                <button
-                  className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full"
-                  onClick={() => handleRemoveImage(index)}
-                >
-                  X
-                </button>
-              )}
-            </div>
-          ))}
-        </Slider>
+        <>
+          {/* LightGallery setup */}
+          <LightGallery
+            speed={500}
+            plugins={[lgThumbnail, lgFullscreen, lgZoom]}
+          >
+            <Slider {...settings}>
+              {images.map((image, index) => (
+                <div key={index} className="relative">
+                  <div className="rounded-md object-cover h-[250px] sm:h-[600px] w-full block">
+                    {isSmallScreen ? (
+                      <a href={image}>
+                        <img
+                          src={image}
+                          alt={`Slide ${index}`}
+                          className="w-full h-full object-cover rounded-lg cursor-pointer"
+                        />
+                      </a>
+                    ) : (
+                      <img
+                        src={image}
+                        alt={`Slide ${index}`}
+                        className="w-full h-full object-cover rounded-lg cursor-pointer"
+                      />
+                    )}
+                  </div>
+                  {showDeleteButtons && handleRemoveImage && (
+                    <button
+                      className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full"
+                      onClick={() => handleRemoveImage(index)}
+                    >
+                      X
+                    </button>
+                  )}
+                </div>
+              ))}
+            </Slider>
+          </LightGallery>
+        </>
       ) : (
         <p className="text-center">No images to display</p>
       )}
