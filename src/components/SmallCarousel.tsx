@@ -22,10 +22,10 @@ const SmallCarousel: React.FC<CarouselProps> = ({
   responsive = [],
 }) => {
   const [isModalOpen, setModalOpen] = useState(false);
-  const [selectedImage, setSelectedImage] = useState<string[] | null>(null);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   const handleImageClick = (image: string) => {
-    setSelectedImage([image]); // Set selectedImage as an array with the clicked image
+    setSelectedImage(image); // Set selectedImage as an array with the clicked image
     setModalOpen(true);
   };
 
@@ -84,7 +84,7 @@ const SmallCarousel: React.FC<CarouselProps> = ({
     <div className="carousel-container mx-auto my-4 w-full max-w-7xl px-6">
       <ImageModal
         isOpen={isModalOpen}
-        imageSrc={selectedImage || []}
+        imageSrc={selectedImage}
         onClose={() => setModalOpen(false)}
       />
       {images.length > 0 ? (

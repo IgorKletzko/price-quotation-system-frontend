@@ -94,7 +94,7 @@ const ReadyBid = () => {
   };
 
   const processedBidForms = flattenAndSortBidForm(form);
-  console.log("processedBidForms", processedBidForms);
+  // console.log("processedBidForms", processedBidForms);
 
   const handleUpdateHotel = (mainForm: MainBidServerResponse[]) => {
     navigate(`/update-main-form`, { state: { mainForm } });

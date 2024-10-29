@@ -1,9 +1,8 @@
 import React from "react";
-import ImageCarousel from "./ImageCarousel";
 
 interface ImageModalProps {
   isOpen: boolean;
-  imageSrc: string[];
+  imageSrc: string | null;
   onClose: () => void;
 }
 
@@ -34,9 +33,10 @@ const ImageModal: React.FC<ImageModalProps> = ({
         >
           X
         </button>
-        <div className="h-full flex justify-center items-center">
-          <ImageCarousel images={imageSrc} />
-        </div>
+
+        {imageSrc && (
+          <img src={imageSrc} alt="" className="object-cover w-full h-full" />
+        )}
       </div>
     </div>
   );
