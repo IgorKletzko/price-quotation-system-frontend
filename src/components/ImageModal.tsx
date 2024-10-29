@@ -23,10 +23,10 @@ const ImageModal: React.FC<ImageModalProps> = ({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center w-full h-full p-4 bg-black bg-opacity-75"
+      className="fixed inset-0 z-50 flex items-center justify-center w-max-full h-max-full p-4 bg-black bg-opacity-75"
       onClick={handleOverlayClick}
     >
-      <div className="relative bg-white p-2 rounded-lg shadow-lg max-w-4xl w-full h-4/5 sm:h-auto overflow-auto sm:p-8">
+      <div className="relative bg-white p-2 rounded-lg shadow-lg max-w-4xl w-max-full h-4/5 sm:h-auto overflow-auto sm:p-8">
         <button
           onClick={onClose}
           className="absolute top-2 right-2 bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-1 px-3 rounded"
@@ -38,7 +38,7 @@ const ImageModal: React.FC<ImageModalProps> = ({
           <img
             src={imageSrc}
             alt=""
-            className="w-full h-full object-contain max-h-screen max-w-full"
+            className="object-cover max-h-screen max-w-full"
           />
         )}
       </div>
