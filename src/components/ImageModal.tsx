@@ -38,7 +38,7 @@ const ImageModal: React.FC<ImageModalProps> = ({
           <img
             src={imageSrc}
             alt=""
-            className="w-full h-full object-cover max-h-screen max-w-full"
+            className="w-full h-full object-contain max-h-screen max-w-full"
           />
         )}
       </div>
