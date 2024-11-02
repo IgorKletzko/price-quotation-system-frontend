@@ -16,6 +16,9 @@ import { Button } from "../ui/button";
 import { useAuth0 } from "@auth0/auth0-react";
 import Loader from "../loader/Loader";
 import TotalSum from "./TotalSum";
+import Header from "./HeaderSite";
+
+
 
 const ReadyBid = () => {
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
@@ -103,6 +106,7 @@ const ReadyBid = () => {
   return (
     <>
       {/* <ReadyBidsTopHeader /> */}
+      {/* <Header/> */}
 
       <div className="sm:px-8 px-2">
         <ReadyBidHeader

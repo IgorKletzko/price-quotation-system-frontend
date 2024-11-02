@@ -10,7 +10,7 @@ const Hero = () => {
       <img src={hero} className="w-full h-[500px] sm:h-[600px] object-cover" />
       <img
         src={logo}
-        className="absolute sm:w-[500px] sm:h-[500px] w-[350px] top-[220px] sm:top-[250px] left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+        className="absolute sm:w-[500px] sm:h-[500px] w-[360px] top-[220px] sm:top-[250px] left-1/2 transform -translate-x-1/2 -translate-y-1/2"
       />
     </div>
   );

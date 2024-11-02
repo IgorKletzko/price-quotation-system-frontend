@@ -3,7 +3,7 @@ import facebookIcon from "../../assets/facebookIcon.webp";
 
 import whatsapIcon from "../../assets/whatsapIcon.jpg";
 
-import logo from "../../assets/logo.jpeg"
+import logo from "../../assets/logo-thailand-sababa1.png";
 import { Link } from "react-router-dom";
 
 const ReadyBidsTopHeader = () => {
