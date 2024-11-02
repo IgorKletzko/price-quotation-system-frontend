@@ -16,7 +16,6 @@ import { Button } from "../ui/button";
 import { useAuth0 } from "@auth0/auth0-react";
 import Loader from "../loader/Loader";
 import TotalSum from "./TotalSum";
-import Header from "./HeaderSite";
 
 
 
