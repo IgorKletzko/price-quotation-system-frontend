@@ -11,6 +11,7 @@ import AuthCallbackPage from "./pages/AuthCallbackPage";
 import ProtectedRoute from "./auth/ProtactedRoute";
 import UpdateHotelsForm from "./forms/UpdateHotelsForm/UpdateHotelsForm";
 import UpdateMainFormPage from "./pages/UpdateMainFormPage";
+import VoucherForm from "./forms/voucherForm/VoucherForm";
 
 
 const AppRoutes = () => {
@@ -22,7 +23,7 @@ const AppRoutes = () => {
         path="/form/:formName"
         element={
           // <Layout>
-            <ReadyBid />
+          <ReadyBid />
           // </Layout>
         }
       />
@@ -42,7 +43,7 @@ const AppRoutes = () => {
           element={
             <Layout>
               <ReadyBidPage />
-             </Layout>
+            </Layout>
           }
         />
 
@@ -68,6 +69,14 @@ const AppRoutes = () => {
           element={
             <Layout>
               <UpdateMainFormPage />
+            </Layout>
+          }
+        />
+        <Route
+          path="/voucher"
+          element={
+            <Layout>
+              <VoucherForm />
             </Layout>
           }
         />
