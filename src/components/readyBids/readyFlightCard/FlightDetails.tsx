@@ -17,10 +17,12 @@ const FlightDetails = ({ data }: Props) => {
             <p className="font-semibold">חברת תעופה:</p>
             <p className="text-center">{data.airline}</p>
           </div>
-          <div className="flex justify-center sm:justify-start gap-1 mb-4">
-            <p className="font-semibold">מספר טיסה:</p>
-            <p className="text-center">{data.flightNumber}</p>
-          </div>
+          {data.flightNumber && (
+            <div className="flex justify-center sm:justify-start gap-1 mb-4">
+              <p className="font-semibold">מספר טיסה:</p>
+              <p className="text-center">{data.flightNumber}</p>
+            </div>
+          )}
         </div>
 
         <div className="flex flex-row justify-between gap-8 lg:w-4/5">
@@ -39,15 +41,19 @@ const FlightDetails = ({ data }: Props) => {
                     <p>{data.stopsNumber}</p>
                   </span>
                 </div>
-                <div className="flex gap-1">
+                {/* <div className="flex gap-1">
                   <p>משך טיסה:</p>
                   <p>11:20</p>
-                </div>
+                </div> */}
                 <MoveLeft />
               </>
             ) : (
               <div className="flex flex-col items-center">
                 <p>טיסה ישירה</p>
+                {/* <div className="flex gap-1">
+                  <p>משך טיסה:</p>
+                  <p>11:20</p>
+                </div> */}
                 <MoveLeft />
               </div>
             )}
