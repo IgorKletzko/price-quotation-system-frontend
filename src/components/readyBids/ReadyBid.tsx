@@ -148,7 +148,7 @@ const ReadyBid = () => {
         <TotalSum bidForm={form} />
 
         {/* <TermsOfUse /> */}
-        <p className="text-center my-8">Ⓒthailand-sababa.co.il</p>
+        <p className="text-center my-8">Ⓒthailand-sababa</p>
 
         {isAuthenticated && (
           <Button

@@ -45,8 +45,6 @@ const FlightDetails = ({ data }: Props) => {
               <div className="flex flex-col items-center">
                 <p>טיסה ישירה</p>
                 <MoveLeft />
-                <MoveLeft />
-                <MoveLeft />
               </div>
             )}
           </div>
