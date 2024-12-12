@@ -195,7 +195,20 @@ const FlightCard: React.FC<FlightCardProps> = ({ id, index, onRemove }) => {
                   {renderInput("שדה תעופה הגעה", "arrivalAirport")}
                 </div>
 
+
+
+
+
                 <div className="sm:w-1/2 sm:p-2">
+                  <div className="flex flex-col w-2/5">
+                    <label className="">משך טיסה</label>
+                    <input
+                      type="time"
+                      {...register(getFieldPath(index, "stopover1Time"))}
+                      className="border sm:p-1"
+                    />
+                  </div>
+
                   <div className="flex flex-col">
                     <label className="">מספר עצירות</label>
                     <input
@@ -326,7 +339,7 @@ const FlightCard: React.FC<FlightCardProps> = ({ id, index, onRemove }) => {
                 <label className="mb-2">הערות הסוכן:</label>
                 <textarea
                   {...register(getFieldPath(index, "agentComments"))}
-                  className="border p-1"
+                  className="border p-1 h-20"
                 />
               </div>
               <div className="flex justify-end">
