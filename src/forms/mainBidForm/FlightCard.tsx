@@ -204,7 +204,7 @@ const FlightCard: React.FC<FlightCardProps> = ({ id, index, onRemove }) => {
                     <label className="">משך טיסה</label>
                     <input
                       type="time"
-                      {...register(getFieldPath(index, "stopover1Time"))}
+                      {...register(getFieldPath(index, "flightDuration"))}
                       className="border sm:p-1"
                     />
                   </div>

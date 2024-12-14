@@ -41,19 +41,19 @@ const FlightDetails = ({ data }: Props) => {
                     <p>{data.stopsNumber}</p>
                   </span>
                 </div>
-                {/* <div className="flex gap-1">
+                <div className="flex gap-1">
                   <p>משך טיסה:</p>
-                  <p>11:20</p>
-                </div> */}
+                  <p>{data.flightDuration}</p>
+                </div>
                 <MoveLeft />
               </>
             ) : (
               <div className="flex flex-col items-center">
                 <p>טיסה ישירה</p>
-                {/* <div className="flex gap-1">
+                <div className="flex gap-1">
                   <p>משך טיסה:</p>
-                  <p>11:20</p>
-                </div> */}
+                  <p>{data.flightDuration}</p>
+                </div>
                 <MoveLeft />
               </div>
             )}

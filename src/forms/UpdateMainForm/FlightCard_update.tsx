@@ -196,6 +196,14 @@ const FlightCard_Update: React.FC<FlightCardProps> = ({
                 </div>
 
                 <div className="sm:w-1/2 sm:p-2">
+                  <div className="flex flex-col w-2/5">
+                    <label className="">משך טיסה</label>
+                    <input
+                      type="time"
+                      {...register(getFieldPath(index, "flightDuration"))}
+                      className="border sm:p-1"
+                    />
+                  </div>
                   <div className="flex flex-col">
                     <label className="">מספר עצירות</label>
                     <input

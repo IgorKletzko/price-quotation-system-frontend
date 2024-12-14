@@ -210,6 +210,7 @@ const MainBidForm_Update: React.FC<MainBidForm_UpdateProps> = ({
       stopover3Time: "00:00",
       flightTime: "00:00",
       landingTime: "00:00",
+      flightDuration: "00:00",
 
       numberOfAdults: 0,
       numberOfChildren: 0,

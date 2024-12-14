@@ -8,6 +8,7 @@ type FlightResponse = {
   flightNumber: string;
   flightTime: string;
   landingTime: string;
+  flightDuration: string;
   stopoverAirport1: string;
   stopoverAirport2: string;
   stopoverAirport3: string;

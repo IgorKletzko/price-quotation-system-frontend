@@ -82,6 +82,7 @@ export type FlightCardFields = {
   stopover3Time: string;
   flightTime: string;
   landingTime: string;
+  flightDuration: string;
 
   numberOfAdults: number;
   numberOfChildren: number;
