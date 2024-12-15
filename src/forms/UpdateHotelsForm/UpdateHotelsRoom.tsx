@@ -33,6 +33,7 @@ const UpdateHotelsRoom: React.FC<HotelRoomProps> = ({
     index,
     roomType: room.roomType || "",
     roomDescription: room.roomDescription || "",
+    agentNotes: room.agentNotes || "",
     images: room.images || [],
   });
 
