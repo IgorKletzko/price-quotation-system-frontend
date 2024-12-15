@@ -36,6 +36,7 @@ type HotelRoom = {
   images: string[];
   nightPrice: number;
   numberOfRooms: number;
+  agentNotes: string;
   _id: string;
 };
 

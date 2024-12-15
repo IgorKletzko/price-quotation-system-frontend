@@ -107,7 +107,7 @@ useEffect(() => {
   };
 
   const handleAddRoom = () => {
-    setRooms((rooms) => [...rooms, { roomType: "", roomDescription: "", images: [], id: "" }]);
+    setRooms((rooms) => [...rooms, { roomType: "", roomDescription: "", agentNotes: "", images: [], id: "" }]);
   };
 
   const handleRemoveRoom = (roomIndex: number) => {

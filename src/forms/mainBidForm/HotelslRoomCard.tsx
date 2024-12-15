@@ -62,6 +62,21 @@ const HotelsRoomCard: React.FC<HotelRoomCardProps> = ({
     const selectedRoom = watch(
       `items.${index}.rooms.${roomIndex}.selectedRoom`
     );
+  
+  const handleAgentNotesChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    const agentNotes = event.target.value;
+    setValue(`items.${index}.rooms.${roomIndex}.agentNotes`, agentNotes);
+    onRoomDataChange({
+      ...watch(`items.${index}.rooms.${roomIndex}.selectedRoom`),
+      nightPrice: watch(`items.${index}.rooms.${roomIndex}.nightPrice`) || 0,
+      numberOfRooms:
+        watch(`items.${index}.rooms.${roomIndex}.numberOfRooms`) || 1,
+      agentNotes,
+    });
+  };
+
 
 
   return (
@@ -129,6 +144,23 @@ const HotelsRoomCard: React.FC<HotelRoomCardProps> = ({
           )}
         />
       </div>
+
+      <div className="flex flex-col mt-4">
+        <label htmlFor={`agent-notes-${roomIndex}`}>הערות סוכן:</label>
+        <Controller
+          name={`items.${index}.rooms.${roomIndex}.agentNotes`}
+          control={control}
+          render={({ field }) => (
+            <textarea
+              id={`agent-notes-${roomIndex}`}
+              value={field.value || ""}
+              onChange={handleAgentNotesChange}
+              className="border h-20"
+            />
+          )}
+        />
+      </div>
+
       <div className="flex justify-end mt-4">
         <RemoveButton onRemove={onRemove} text="מחק חדר" />
       </div>

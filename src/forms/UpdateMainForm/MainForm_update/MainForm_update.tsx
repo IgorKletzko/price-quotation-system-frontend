@@ -276,6 +276,7 @@ const MainBidForm_Update: React.FC<MainBidForm_UpdateProps> = ({
               images: room.images,
               nightPrice: room.nightPrice,
               numberOfRooms: room.numberOfRooms,
+              agentNotes: room.agentNotes,
             })),
           };
         }

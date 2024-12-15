@@ -7,6 +7,7 @@ export interface RoomFormData {
   id: string;
   roomType: string;
   roomDescription: string;
+  agentNotes: string;
   images: string[];
 }
 export interface HotelFormData {
@@ -23,6 +24,7 @@ export interface Room {
   images: string[];
   nightPrice?: number;
   numberOfRooms?: number;
+  agentNotes: string;
   // _id: string;
   id: string; ///added
 }

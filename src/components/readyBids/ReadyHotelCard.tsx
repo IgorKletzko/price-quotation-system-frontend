@@ -175,6 +175,7 @@ const ReadyHotelCard: React.FC<ReadyHotelCardProps> = ({ data }) => {
                         </p>
                       </div>
                     </div>
+                    <p className="text-center my-4">{room.agentNotes}</p>
                   </AccordionContent>
                 </AccordionItem>
               ))}

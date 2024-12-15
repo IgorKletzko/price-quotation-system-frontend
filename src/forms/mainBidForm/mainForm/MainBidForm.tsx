@@ -207,6 +207,7 @@ const MainBidForm: React.FC = () => {
               images: room.images,
               nightPrice: room.nightPrice,
               numberOfRooms: room.numberOfRooms,
+              agentNotes: room.agentNotes,
             })),
           };
         }
