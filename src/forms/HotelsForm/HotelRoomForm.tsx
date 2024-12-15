@@ -29,6 +29,7 @@ const HotelRoomForm: React.FC<HotelRoomProps> = ({
     index,
     roomType: "",
     roomDescription: "",
+    agentNotes: "",
     images: [],
   });
 

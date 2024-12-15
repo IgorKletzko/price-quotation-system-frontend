@@ -58,7 +58,7 @@ const HotelsForm = () => {
   };
 
   const handleAddRoom = () => {
-    setRooms((rooms) => [...rooms, { id: uuidv4(), roomType: "", roomDescription: "", images: [] }]);
+    setRooms((rooms) => [...rooms, { id: uuidv4(), roomType: "", roomDescription: "", agentNotes: "", images: [] }]);
   };
 
   const handleRemoveRoom = async (id: string) => {
