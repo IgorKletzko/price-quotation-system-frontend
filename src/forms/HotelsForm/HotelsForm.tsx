@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import LoadingButton from "@/components/LoadingButton";
 import HotelRoomForm from "./HotelRoomForm";
 import { Separator } from "@/components/ui/separator";
-import  { uploadImages } from "@/api/imageUploadApi";
+import { uploadImages } from "@/api/imageUploadApi";
 import RemoveButton from "@/components/RemoveButton";
 import { HotelFormData, RoomFormData } from "@/types/types";
 import UploadImagesInput from "@/components/UploadImagesInput";
@@ -42,8 +42,7 @@ const HotelsForm = () => {
   const [showForm, setShowForm] = React.useState(false);
   const [isUploading, setIsUploading] = useState(false);
 
-  const {hotels} = useGetHotels()
-
+  const { hotels } = useGetHotels();
 
   const handleToggleForm = () => {
     setHotelUrls([]);
@@ -58,7 +57,16 @@ const HotelsForm = () => {
   };
 
   const handleAddRoom = () => {
-    setRooms((rooms) => [...rooms, { id: uuidv4(), roomType: "", roomDescription: "", agentNotes: "", images: [] }]);
+    setRooms((rooms) => [
+      ...rooms,
+      {
+        id: uuidv4(),
+        roomType: "",
+        roomDescription: "",
+        agentNotes: "",
+        images: [],
+      },
+    ]);
   };
 
   const handleRemoveRoom = async (id: string) => {
@@ -105,24 +113,21 @@ const HotelsForm = () => {
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-
     event.preventDefault();
     const formData = methods.getValues();
 
-    const hotelName = formData.hotelName
-    
+    const hotelName = formData.hotelName;
 
     try {
-          const hotelExists = hotels?.some(
-            (hotel) => hotel.hotelName === hotelName
-          );
-      
+      const hotelExists = hotels?.some(
+        (hotel) => hotel.hotelName === hotelName
+      );
+
       if (hotelExists) {
         console.error(`A hotel with the name "${hotelName}" already exists.`);
         toast.error(`כבר קיים במערכת "${hotelName}" בית מלון עם השם`);
-        return
+        return;
       }
-
 
       if (formData.hotelName && formData.hotelDescription) {
         setIsUploading(true);
@@ -151,7 +156,6 @@ const HotelsForm = () => {
         setRooms([]);
         setShowForm(!showForm);
         localStorage.removeItem("images");
-      
       }
     } catch (error) {
       console.error("Error submitting form:", error);
@@ -163,9 +167,9 @@ const HotelsForm = () => {
   useEffect(() => {
     if (isSuccess) {
       toast.success("הבית מלון עודכן במערכת");
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000);
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
     }
     if (error) {
       toast.error("עדכון הבית מלון נכשל");
@@ -215,6 +219,7 @@ const HotelsForm = () => {
                 <div className="flex flex-col sm:flex-row sm:gap-4">
                   <h2 className="sm:text-2xl">שם הבית מלון:</h2>
                   <input
+                    dir="ltr"
                     {...methods.register("hotelName")}
                     className="border text-sm sm:text-xl w-[400px]"
                   />
