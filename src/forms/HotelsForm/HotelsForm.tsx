@@ -216,7 +216,7 @@ const HotelsForm = () => {
                   <h2 className="sm:text-2xl">שם הבית מלון:</h2>
                   <input
                     {...methods.register("hotelName")}
-                    className="border text-sm sm:text-xl w-[200px]"
+                    className="border text-sm sm:text-xl w-[400px]"
                   />
                 </div>
 
