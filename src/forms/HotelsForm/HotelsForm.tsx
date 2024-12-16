@@ -211,7 +211,7 @@ const HotelsForm = () => {
                 />
               </div>
 
-              <div className="flex flex-col gap-4">
+              <div dir="ltr" className="flex flex-col gap-4">
                 <div className="flex flex-col sm:flex-row sm:gap-4">
                   <h2 className="sm:text-2xl">שם הבית מלון:</h2>
                   <input
