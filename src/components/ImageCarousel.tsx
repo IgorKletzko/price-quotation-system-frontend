@@ -53,7 +53,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
   };
 
   const settings = {
-    dots: true,
+    dots: false,
     infinite: images.length > 1,
     speed: 1000,
     slidesToShow: 1,
