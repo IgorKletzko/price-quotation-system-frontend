@@ -54,15 +54,17 @@ const HotelsPage = () => {
   );
 
   // Filter hotels based on selected destination and area
-  const filteredHotels = hotels.filter((hotel) => {
-    if (selectedDestination && hotel.destination !== selectedDestination) {
-      return false;
-    }
-    if (selectedArea && hotel.area !== selectedArea) {
-      return false;
-    }
-    return true;
-  });
+  const filteredHotels = hotels
+    .filter((hotel) => {
+      if (selectedDestination && hotel.destination !== selectedDestination) {
+        return false;
+      }
+      if (selectedArea && hotel.area !== selectedArea) {
+        return false;
+      }
+      return true;
+    })
+    .sort((a, b) => a.hotelName.localeCompare(b.hotelName)); // Sort alphabetically
 
   const handleDeleteHotel = (hotelName: string) => {
     setSelectedHotel(hotelName);
