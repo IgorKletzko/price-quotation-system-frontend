@@ -47,6 +47,8 @@ type HotelResponse = {
   checkInDate: string; // ISO date string
   checkOutDate: string; // ISO date string
   hotelDescription: string;
+  destination: string;
+  area: string;
   stars: number;
   images: string[];
   rooms: HotelRoom[];

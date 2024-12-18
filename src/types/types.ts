@@ -50,6 +50,8 @@ export interface HotelCardFields {
   checkInDate: Date;
   checkOutDate: Date;
   hotelDescription: string;
+  destination: string;
+  area: string;
   stars: number;
   images: string[];
   rooms: RoomFormData[];
