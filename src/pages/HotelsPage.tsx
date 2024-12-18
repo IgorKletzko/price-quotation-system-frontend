@@ -39,19 +39,19 @@ const HotelsPage = () => {
     );
   }
 
-  // Extract unique destinations
+  // Extract unique destinations and sort alphabetically
   const destinations = Array.from(
     new Set(hotels.map((hotel) => hotel.destination))
-  );
+  ).sort((a, b) => a.localeCompare(b));
 
-  // Extract unique areas based on the selected destination
+  // Extract unique areas based on the selected destination and sort alphabetically
   const areas = Array.from(
     new Set(
       hotels
         .filter((hotel) => hotel.destination === selectedDestination)
         .map((hotel) => hotel.area)
     )
-  );
+  ).sort((a, b) => a.localeCompare(b));
 
   // Filter hotels based on selected destination and area
   const filteredHotels = hotels
