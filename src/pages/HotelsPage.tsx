@@ -17,10 +17,11 @@ import StarRating from "@/components/StarRaiting";
 
 const HotelsPage = () => {
   const { hotels } = useGetHotels();
-
   const { deleteHotel, isSuccess } = useDeleteHotel();
   const [showModal, setShowModal] = useState<boolean>(false);
   const [selectedHotel, setSelectedHotel] = useState<string | null>(null);
+  const [selectedDestination, setSelectedDestination] = useState<string>("");
+  const [selectedArea, setSelectedArea] = useState<string>("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -38,14 +39,36 @@ const HotelsPage = () => {
     );
   }
 
-  const sortedHotels = [...hotels].sort((a, b) =>
-    a.hotelName.localeCompare(b.hotelName)
+  // Extract unique destinations
+  const destinations = Array.from(
+    new Set(hotels.map((hotel) => hotel.destination))
   );
+
+  // Extract unique areas based on the selected destination
+  const areas = Array.from(
+    new Set(
+      hotels
+        .filter((hotel) => hotel.destination === selectedDestination)
+        .map((hotel) => hotel.area)
+    )
+  );
+
+  // Filter hotels based on selected destination and area
+  const filteredHotels = hotels.filter((hotel) => {
+    if (selectedDestination && hotel.destination !== selectedDestination) {
+      return false;
+    }
+    if (selectedArea && hotel.area !== selectedArea) {
+      return false;
+    }
+    return true;
+  });
 
   const handleDeleteHotel = (hotelName: string) => {
     setSelectedHotel(hotelName);
     setShowModal(true);
   };
+
   const confirmDeleteHotel = () => {
     if (selectedHotel) {
       deleteHotel(selectedHotel);
@@ -61,28 +84,67 @@ const HotelsPage = () => {
     <div className="sm:container mx-auto" dir="rtl">
       <HotelsForm />
 
-      <Accordion type="single" collapsible className="space-y-2 mt-12">
-        {sortedHotels.map((hotel) => (
+      <div className="flex flex-col md:flex-row mt-4">
+        <select
+          value={selectedDestination}
+          onChange={(e) => {
+            setSelectedDestination(e.target.value);
+            setSelectedArea(""); // Reset area when destination changes
+          }}
+          className="border rounded p-2"
+        >
+          <option value="">כל המלונות</option>
+          {destinations.map((destination) => (
+            <option key={destination} value={destination}>
+              {destination}
+            </option>
+          ))}
+        </select>
+
+        {selectedDestination && (
+          <select
+            value={selectedArea}
+            onChange={(e) => setSelectedArea(e.target.value)}
+            className="border rounded p-2 mt-2 md:mt-0"
+          >
+            <option value="">בחר אזור</option>
+            {areas.map((area) => (
+              <option key={area} value={area}>
+                {area}
+              </option>
+            ))}
+          </select>
+        )}
+      </div>
+
+      <Accordion type="single" collapsible className="space-y-2 mt-4">
+        {filteredHotels.map((hotel) => (
           <AccordionItem key={hotel.hotelName} value={hotel.hotelName}>
             <AccordionTrigger className="flex flex-col md:flex-row justify-between bg-blue-500 rounded-md p-2 sm:p-4 hover:no-underline">
-              <p> {hotel.hotelName}</p>
+              <p>{hotel.hotelName}</p>
             </AccordionTrigger>
             <AccordionContent className="border p-2 sm:p-4">
               <div className="flex justify-center">
                 <ImageCarousel images={hotel.images} />
               </div>
 
-              <p className="mt-8">{hotel.hotelDescription}</p>
+              <div className="text-center">
+                <p className="mt-8">{hotel.hotelDescription}</p>
 
-              <StarRating star={hotel.stars}/>
+                <span className="flex justify-center">
+                  <StarRating star={hotel.stars} />
+                </span>
+
+                <p className="mt-8">{hotel.destination}</p>
+                <p className="mt-2">{hotel.area}</p>
+              </div>
 
               <Accordion type="single" collapsible className="space-y-2 mt-4">
                 {hotel.rooms.map((room: Room) => (
                   <AccordionItem key={room.id} value={room.id}>
                     <AccordionTrigger className="bg-amber-200 rounded p-4 ">
                       <div className="flex space-x-2">
-                        <p className="ml-2"> {room.roomType}</p>
-
+                        <p className="ml-2">{room.roomType}</p>
                         <p>({room.images.length}תמונות)</p>
                       </div>
                     </AccordionTrigger>
@@ -99,9 +161,8 @@ const HotelsPage = () => {
                           },
                         ]}
                       />
-
                       <div className="flex justify-center">
-                        <p className="mt-8"> {room.roomDescription}</p>
+                        <p className="mt-8">{room.roomDescription}</p>
                       </div>
                     </AccordionContent>
                   </AccordionItem>
@@ -129,6 +190,7 @@ const HotelsPage = () => {
           </AccordionItem>
         ))}
       </Accordion>
+
       <ConfirmationModal
         show={showModal}
         onConfirm={confirmDeleteHotel}

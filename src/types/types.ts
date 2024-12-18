@@ -13,6 +13,8 @@ export interface RoomFormData {
 export interface HotelFormData {
   hotelName: string;
   hotelDescription: string;
+  destination: string;
+  area: string;
   stars: number;
   images: string[];
   rooms: RoomFormData[];
@@ -34,6 +36,8 @@ export interface Hotel {
   type: string;
   hotelName: string;
   hotelDescription: string;
+  destination: string;
+  area: string;
   stars: number;
   images: string[];
   rooms: Room[];

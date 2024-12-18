@@ -18,6 +18,8 @@ import { v4 as uuidv4 } from "uuid";
 const hotelSchema = z.object({
   hotelName: z.string().min(1, "Hotel name is required"),
   hotelDescription: z.string().min(1, "Hotel description is required"),
+  destination: z.string().min(1),
+  area: z.string().min(1),
   images: z.array(z.string()).optional(),
 
   rooms: z.array(
@@ -146,6 +148,8 @@ const HotelsForm = () => {
         const fullFormData = {
           hotelName: formData.hotelName,
           hotelDescription: formData.hotelDescription,
+          destination: formData.destination,
+          area: formData.area,
           stars: formData.stars,
           images: cloudinaryHotelUrls,
           rooms: cloudinaryRoomUrls,
@@ -222,6 +226,23 @@ const HotelsForm = () => {
                     dir="ltr"
                     {...methods.register("hotelName")}
                     className="border text-sm sm:text-xl w-[400px]"
+                  />
+                </div>
+
+                <div className="flex flex-col sm:flex-row sm:gap-4">
+                  <h2 className="sm:text-2xl w-[60px]">יעד:</h2>
+                  <input
+                    dir="ltr"
+                    {...methods.register("destination")}
+                    className="border text-sm sm:text-xl"
+                  />
+                </div>
+                <div className="flex flex-col sm:flex-row sm:gap-4">
+                  <h2 className="sm:text-2xl w-[60px]">איזור:</h2>
+                  <input
+                    dir="ltr"
+                    {...methods.register("area")}
+                    className="border text-sm sm:text-xl"
                   />
                 </div>
 
