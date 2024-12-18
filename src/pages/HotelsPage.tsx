@@ -86,7 +86,7 @@ const HotelsPage = () => {
     <div className="sm:container mx-auto" dir="rtl">
       <HotelsForm />
 
-      <div className="flex flex-col md:flex-row mt-4">
+      <div className="flex flex-col md:flex-row mt-4 items-center">
         <select
           value={selectedDestination}
           onChange={(e) => {
@@ -117,6 +117,12 @@ const HotelsPage = () => {
             ))}
           </select>
         )}
+        <div className="mr-8">
+          <p>
+            כמות מלונות:{" "}
+            <span className="font-bold">{filteredHotels.length}</span>
+          </p>
+        </div>
       </div>
 
       <Accordion type="single" collapsible className="space-y-2 mt-4">
