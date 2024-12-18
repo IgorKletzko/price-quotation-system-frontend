@@ -76,6 +76,8 @@ const MainBidForm: React.FC = () => {
       checkInDate: today,
       checkOutDate: tomorrow,
       hotelDescription: "",
+      destination: "",
+      area: "",
       stars: 0,
       images: [],
       rooms: [],
