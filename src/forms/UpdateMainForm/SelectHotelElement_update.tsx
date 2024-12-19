@@ -221,9 +221,8 @@ const HotelDropdown: React.FC<Props> = ({
 
             {/* "Go Back" Button */}
             {currentStep !== "destination" && (
-              <CommandItem onSelect={handleGoBack}>
-                <Check className="mr-2 h-4 w-4 opacity-100" />
-                Go Back
+              <CommandItem onSelect={handleGoBack} className="ml-20">
+                חזרה
               </CommandItem>
             )}
 
