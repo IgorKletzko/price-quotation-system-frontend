@@ -218,21 +218,39 @@ const HotelDropdown: React.FC<Props> = ({ data }) => {
   const [open, setOpen] = useState(false);
   const { hotels } = useGetHotels();
 
+  console.log(hotels)
+
+  // useEffect(() => {
+  //   if (hotels) {
+  //     // Group hotels by destination and area
+  //     const grouped = hotels.reduce((acc: any, hotel: Hotel) => {
+  //       if (!hotel.destination || !hotel.area) return acc; // Skip invalid data
+  //       if (!acc[hotel.destination]) acc[hotel.destination] = {};
+  //       if (!acc[hotel.destination][hotel.area])
+  //         acc[hotel.destination][hotel.area] = [];
+  //       acc[hotel.destination][hotel.area].push(hotel);
+  //       return acc;
+  //     }, {});
+
+  //     setGroupedHotels(grouped);
+  //   }
+  // }, [hotels]);
   useEffect(() => {
     if (hotels) {
-      // Group hotels by destination and area
       const grouped = hotels.reduce((acc: any, hotel: Hotel) => {
-        if (!hotel.destination || !hotel.area) return acc; // Skip invalid data
-        if (!acc[hotel.destination]) acc[hotel.destination] = {};
-        if (!acc[hotel.destination][hotel.area])
-          acc[hotel.destination][hotel.area] = [];
-        acc[hotel.destination][hotel.area].push(hotel);
+        const destination = hotel.destination?.trim();
+        const area = hotel.area?.trim() || "Unknown Area"; // Assign default value if area is missing
+        if (!destination) return acc; // Skip if destination is missing
+        if (!acc[destination]) acc[destination] = {};
+        if (!acc[destination][area]) acc[destination][area] = [];
+        acc[destination][area].push(hotel);
         return acc;
       }, {});
 
       setGroupedHotels(grouped);
     }
   }, [hotels]);
+
 
   useEffect(() => {
     if (selectedHotel) data(selectedHotel);
