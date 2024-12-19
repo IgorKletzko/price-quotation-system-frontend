@@ -1,11 +1,119 @@
-import { useGetHotels } from "@/api/HotelsFormApi";
-import { Hotel } from "@/types/types";
+// import { useGetHotels } from "@/api/HotelsFormApi";
+// import { Hotel } from "@/types/types";
+// import React, { useEffect, useState } from "react";
+// import { Check, ChevronsUpDown } from "lucide-react";
+// import {
+//   Command,
+//   CommandEmpty,
+//   CommandGroup,
+//   CommandInput,
+//   CommandItem,
+//   CommandList,
+// } from "../../components/ui/command";
+// import {
+//   Popover,
+//   PopoverContent,
+//   PopoverTrigger,
+// } from "../../components/ui/popover";
+// import { Button } from "@/components/ui/button";
+// import { cn } from "@/lib/utils";
+
+
+// interface Props {
+//   data: (hotelData: Hotel) => void;
+//   hotelName: string | undefined;
+//   hotelsToUpdate: Hotel | null;
+// }
+
+// const HotelDropdown: React.FC<Props> = ({
+//   data,
+//   hotelName,
+//   hotelsToUpdate,
+// }) => {
+//   const [hotelsData, setHotelsData] = useState<Hotel[]>([]);
+//   // console.log("hotelsData", hotelsData);
+//   const [selectedHotel, setSelectedHotel] = useState<Hotel | null>(hotelsToUpdate);
+//   // console.log("selectedHotel", selectedHotel);
+//   const [open, setOpen] = useState(false);
+//   const [value, setValue] = useState<string>("");
+
+//   const { hotels } = useGetHotels();
+
+//   useEffect(() => {
+//     if (selectedHotel) {
+//       data(selectedHotel);
+//     }
+//   }, [selectedHotel]);
+
+//   useEffect(() => {
+//     if (hotels) {
+//       setHotelsData(hotels);
+//     }
+//   }, [hotels]);
+
+//   const handleHotelSelect = (selectedValue: string) => {
+//     console.log(selectedValue)
+//     const selectedHotel = hotelsData.find(
+//       (hotel) => hotel.hotelName === selectedValue
+//     );
+//     setSelectedHotel(selectedHotel || null);
+//     setValue(selectedValue);
+//     setOpen(false);
+//   };
+
+//   return (
+//     <Popover open={open} onOpenChange={setOpen}>
+//       <PopoverTrigger asChild>
+//         <Button
+//           variant="outline"
+//           role="combobox"
+//           aria-expanded={open}
+//           className="w-[200px] justify-between"
+//         >
+//           {value
+//             ? hotelsData.find((hotel) => hotel.hotelName === value)?.hotelName
+//             : hotelName || "Select a hotel..."}
+//           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+//         </Button>
+//       </PopoverTrigger>
+//       <PopoverContent className="w-[200px] p-0">
+//         <Command>
+//           <CommandInput placeholder="Search hotel..." />
+//           <CommandList>
+//             <CommandEmpty>No hotel found.</CommandEmpty>
+//             <CommandGroup>
+//               {hotelsData.map((hotel) => (
+//                 <CommandItem
+//                   key={hotel.hotelName}
+//                   value={hotel.hotelName}
+//                       onSelect={handleHotelSelect}
+//                       // defaultValue={hotelsToUpdate[index]?._id}
+//                 >
+//                   <Check
+//                     className={cn(
+//                       "mr-2 h-4 w-4",
+//                       value === hotel.hotelName ? "opacity-100" : "opacity-0"
+//                     )}
+//                   />
+//                   {hotel.hotelName}
+//                 </CommandItem>
+//               ))}
+//             </CommandGroup>
+//           </CommandList>
+//         </Command>
+//       </PopoverContent>
+//     </Popover>
+//   );
+// };
+
+// export default HotelDropdown;
+
+
 import React, { useEffect, useState } from "react";
 import { Check, ChevronsUpDown } from "lucide-react";
 import {
   Command,
   CommandEmpty,
-  CommandGroup,
   CommandInput,
   CommandItem,
   CommandList,
@@ -17,7 +125,8 @@ import {
 } from "../../components/ui/popover";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-
+import { useGetHotels } from "@/api/HotelsFormApi";
+import { Hotel } from "@/types/types";
 
 interface Props {
   data: (hotelData: Hotel) => void;
@@ -30,35 +139,62 @@ const HotelDropdown: React.FC<Props> = ({
   hotelName,
   hotelsToUpdate,
 }) => {
-  const [hotelsData, setHotelsData] = useState<Hotel[]>([]);
-  // console.log("hotelsData", hotelsData);
-  const [selectedHotel, setSelectedHotel] = useState<Hotel | null>(hotelsToUpdate);
-  // console.log("selectedHotel", selectedHotel);
+  const [groupedHotels, setGroupedHotels] = useState<any>({});
+  const [selectedDestination, setSelectedDestination] = useState<string | null>(
+    null
+  );
+  const [selectedArea, setSelectedArea] = useState<string | null>(null);
+  const [selectedHotel, setSelectedHotel] = useState<Hotel | null>(
+    hotelsToUpdate
+  );
+  const [currentStep, setCurrentStep] = useState<
+    "destination" | "area" | "hotel"
+  >(hotelsToUpdate ? "hotel" : "destination");
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState<string>("");
 
   const { hotels } = useGetHotels();
 
   useEffect(() => {
-    if (selectedHotel) {
-      data(selectedHotel);
-    }
-  }, [selectedHotel]);
-
-  useEffect(() => {
     if (hotels) {
-      setHotelsData(hotels);
+      const grouped = hotels.reduce((acc: any, hotel: Hotel) => {
+        if (!hotel.destination || !hotel.area) return acc; // Skip invalid data
+        if (!acc[hotel.destination]) acc[hotel.destination] = {};
+        if (!acc[hotel.destination][hotel.area])
+          acc[hotel.destination][hotel.area] = [];
+        acc[hotel.destination][hotel.area].push(hotel);
+        return acc;
+      }, {});
+      setGroupedHotels(grouped);
     }
   }, [hotels]);
 
-  const handleHotelSelect = (selectedValue: string) => {
-    console.log(selectedValue)
-    const selectedHotel = hotelsData.find(
-      (hotel) => hotel.hotelName === selectedValue
-    );
-    setSelectedHotel(selectedHotel || null);
-    setValue(selectedValue);
-    setOpen(false);
+  useEffect(() => {
+    if (selectedHotel) data(selectedHotel);
+  }, [selectedHotel]);
+
+  const handleDestinationSelect = (destination: string) => {
+    setSelectedDestination(destination);
+    setCurrentStep("area");
+  };
+
+  const handleAreaSelect = (area: string) => {
+    setSelectedArea(area);
+    setCurrentStep("hotel");
+  };
+
+  const handleHotelSelect = (hotel: Hotel) => {
+    setSelectedHotel(hotel);
+    setOpen(false); // Close dropdown
+  };
+
+  const handleGoBack = () => {
+    if (currentStep === "hotel") {
+      setSelectedArea(null);
+      setCurrentStep("area");
+    } else if (currentStep === "area") {
+      setSelectedDestination(null);
+      setCurrentStep("destination");
+    }
   };
 
   return (
@@ -68,37 +204,92 @@ const HotelDropdown: React.FC<Props> = ({
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[200px] justify-between"
+          className="w-[300px] justify-between"
         >
-          {value
-            ? hotelsData.find((hotel) => hotel.hotelName === value)?.hotelName
-            : hotelName || "Select a hotel..."}
+          {selectedHotel?.hotelName ||
+            (selectedArea
+              ? `Select a hotel in ${selectedArea}`
+              : selectedDestination
+              ? `Select an area in ${selectedDestination}`
+              : "Select a destination...")}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
+      <PopoverContent className="w-[300px] p-0">
         <Command>
-          <CommandInput placeholder="Search hotel..." />
+          <CommandInput placeholder="Search..." />
           <CommandList>
-            <CommandEmpty>No hotel found.</CommandEmpty>
-            <CommandGroup>
-              {hotelsData.map((hotel) => (
+            <CommandEmpty>No options found.</CommandEmpty>
+
+            {/* "Go Back" Button */}
+            {currentStep !== "destination" && (
+              <CommandItem onSelect={handleGoBack}>
+                <Check className="mr-2 h-4 w-4 opacity-100" />
+                Go Back
+              </CommandItem>
+            )}
+
+            {/* Destinations */}
+            {currentStep === "destination" &&
+              Object.keys(groupedHotels).map((destination) => (
                 <CommandItem
-                  key={hotel.hotelName}
-                  value={hotel.hotelName}
-                      onSelect={handleHotelSelect}
-                      // defaultValue={hotelsToUpdate[index]?._id}
+                  key={destination}
+                  value={destination}
+                  onSelect={() => handleDestinationSelect(destination)}
                 >
                   <Check
                     className={cn(
                       "mr-2 h-4 w-4",
-                      value === hotel.hotelName ? "opacity-100" : "opacity-0"
+                      selectedDestination === destination
+                        ? "opacity-100"
+                        : "opacity-0"
                     )}
                   />
-                  {hotel.hotelName}
+                  {destination}
                 </CommandItem>
               ))}
-            </CommandGroup>
+
+            {/* Areas */}
+            {currentStep === "area" &&
+              Object.keys(groupedHotels[selectedDestination!] || {}).map(
+                (area) => (
+                  <CommandItem
+                    key={area}
+                    value={area}
+                    onSelect={() => handleAreaSelect(area)}
+                  >
+                    <Check
+                      className={cn(
+                        "mr-2 h-4 w-4",
+                        selectedArea === area ? "opacity-100" : "opacity-0"
+                      )}
+                    />
+                    {area}
+                  </CommandItem>
+                )
+              )}
+
+            {/* Hotels */}
+            {currentStep === "hotel" &&
+              groupedHotels[selectedDestination!]?.[selectedArea!]?.map(
+                (hotel: Hotel) => (
+                  <CommandItem
+                    key={hotel.id}
+                    value={hotel.hotelName}
+                    onSelect={() => handleHotelSelect(hotel)}
+                  >
+                    <Check
+                      className={cn(
+                        "mr-2 h-4 w-4",
+                        selectedHotel?.id === hotel.id
+                          ? "opacity-100"
+                          : "opacity-0"
+                      )}
+                    />
+                    {hotel.hotelName}
+                  </CommandItem>
+                )
+              )}
           </CommandList>
         </Command>
       </PopoverContent>
@@ -107,5 +298,3 @@ const HotelDropdown: React.FC<Props> = ({
 };
 
 export default HotelDropdown;
-
-
