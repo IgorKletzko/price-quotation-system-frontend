@@ -130,13 +130,11 @@ import { Hotel } from "@/types/types";
 
 interface Props {
   data: (hotelData: Hotel) => void;
-  hotelName: string | undefined;
   hotelsToUpdate: Hotel | null;
 }
 
 const HotelDropdown: React.FC<Props> = ({
   data,
-  hotelName,
   hotelsToUpdate,
 }) => {
   const [groupedHotels, setGroupedHotels] = useState<any>({});

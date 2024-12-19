@@ -207,7 +207,6 @@ const HotelCard_Update: React.FC<HotelCardProps> = ({
             <div className="space-y-2 p-4">
               <SelectHotelElement_update
                 data={receiveDataFromSelectHotelElement}
-                hotelName={selectedHotel?.hotelName}
                 hotelsToUpdate={selectedHotel}
               />
 
