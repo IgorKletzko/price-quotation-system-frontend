@@ -107,7 +107,7 @@ useEffect(() => {
   };
 
   const handleAddRoom = () => {
-    setRooms((rooms) => [...rooms, { roomType: "", roomDescription: "", agentNotes: "", images: [], id: "" }]);
+    setRooms((rooms) => [...rooms, { roomType: "", roomDescription: "", agentNotes: "",  images: [], id: "" }]);
   };
 
   const handleRemoveRoom = (roomIndex: number) => {
@@ -197,7 +197,7 @@ useEffect(() => {
             <div className="space-y-2 p-4">
               <SelectHotelElement
                 data={receiveDataFromInput}
-                hotelName={selectedHotel?.hotelName}
+                // hotelName={selectedHotel?.hotelName}
               />
 
               <div className="flex md:flex-row flex-col justify-between items-center"> 
