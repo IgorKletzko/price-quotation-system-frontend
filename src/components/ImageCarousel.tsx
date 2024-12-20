@@ -73,7 +73,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
             <Slider {...settings}>
               {images.map((image, index) => (
                 <div key={index} className="relative">
-                  <div className="rounded-md object-cover h-[250px] sm:h-[600px] w-full block">
+                  <div className="rounded-md object-cover h-[250px] sm:h-[800px] w-full block">
                     {isSmallScreen ? (
                       <PhotoView src={image}>
                         <img
