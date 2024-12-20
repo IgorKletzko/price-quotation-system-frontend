@@ -261,7 +261,7 @@ const HotelsForm = () => {
                   <h3 className="sm:text-xl">תיאור הבית מלון:</h3>
                   <textarea
                     {...methods.register("hotelDescription")}
-                    className="border h-[100px] w-full text-sm  sm:text-xl"
+                    className="border h-[300px] w-full text-sm  sm:text-xl"
                   />
                 </div>
               </div>
