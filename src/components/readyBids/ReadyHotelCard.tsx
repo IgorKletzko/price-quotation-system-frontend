@@ -8,7 +8,7 @@ import {
 import ImageCarousel from "../ImageCarousel";
 import SmallCarousel from "../SmallCarousel";
 import { calculateNights, dateFormat } from "@/config/utils";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowBigDownDash, ArrowBigUpDash } from "lucide-react";
 import StarRating from "../StarRaiting";
 // import hotel_icon from "../../assets/hotle-icon.png"
@@ -22,13 +22,56 @@ const ReadyHotelCard: React.FC<ReadyHotelCardProps> = ({ data }) => {
 
   const [isOpen1, setIsOpen1] = useState(false);
   const [isOpen2, setIsOpen2] = useState(false);
+  const [showFullDescription, setShowFullDescription] = useState(false);
+  const [isTruncated, setIsTruncated] = useState(false);
+  
+    const descriptionRef = useRef<HTMLParagraphElement>(null);
 
+
+   useEffect(() => {
+     const observerCallback = () => {
+       if (descriptionRef.current) {
+         const descriptionHeight = descriptionRef.current.scrollHeight;
+         const lineHeight = parseInt(
+           window.getComputedStyle(descriptionRef.current).lineHeight || "0",
+           10
+         );
+
+         // Check if the content exceeds two lines
+         setIsTruncated(descriptionHeight > lineHeight * 2);
+       }
+     };
+
+     // Run the observer callback immediately
+     observerCallback();
+
+     // Create a MutationObserver to monitor changes to the description text
+     const observer = new MutationObserver(observerCallback);
+
+     if (descriptionRef.current) {
+       observer.observe(descriptionRef.current, {
+         childList: true,
+         subtree: true,
+       });
+     }
+
+     return () => {
+       observer.disconnect();
+     };
+   }, [isOpen1,data.hotelDescription]);
+  
+  
+  
   const handleToggle1 = () => {
     setIsOpen1(!isOpen1);
   };
   const handleToggle2 = () => {
     setIsOpen2(!isOpen2);
   };
+
+   const toggleDescription = () => {
+     setShowFullDescription(!showFullDescription);
+   };
 
   return (
     <div dir="rtl" className="">
@@ -65,26 +108,28 @@ const ReadyHotelCard: React.FC<ReadyHotelCardProps> = ({ data }) => {
             <span className="flex justify-center mb-4">
               <StarRating star={data.stars} />
             </span>
+
             <div className="bg-yellow-100 p-6 rounded-md">
               <div className="flex justify-center">
-                <p className="mt-4 text-center">{data.hotelDescription}</p>
+                <p
+                  ref={descriptionRef}
+                  className={`mt-4 text-center ${
+                    showFullDescription ? "" : "line-clamp-2 overflow-hidden"
+                  }`}
+                >
+                  {data.hotelDescription}
+                </p>
               </div>
-
-              {/* <div className="flex flex-col sm:flex-row justify-between sm:mx-8">
-                <div className="flex flex-col md:flex-row sm:justify-between gap-2 mt-4">
-                  <span className="flex justify-center gap-1">
-                    <p>{dateFormat(data.checkInDate)}</p>
-                    <p>-</p>
-                    <p>{dateFormat(data.checkOutDate)}</p>
-                    <p>({nights} לילות)</p>
-                  </span>
+              {isTruncated && (
+                <div className="text-center mt-2">
+                  <button
+                    onClick={toggleDescription}
+                    className="text-blue-500 underline hover:text-blue-700"
+                  >
+                    {showFullDescription ? "קרא פחות" : "קרא עוד"}
+                  </button>
                 </div>
-
-                <div className="flex sm:justify-end justify-center gap-1 mt-4 text-lg font-semibold">
-                  <p>סה׳כ לתשלום:</p>
-                  <p className="">฿{data.sum}</p>
-                </div>
-              </div> */}
+              )}
             </div>
 
             <Accordion type="single" collapsible className="space-y-2 mt-4">
@@ -188,3 +233,10 @@ const ReadyHotelCard: React.FC<ReadyHotelCardProps> = ({ data }) => {
 };
 
 export default ReadyHotelCard;
+
+
+
+
+
+
+
