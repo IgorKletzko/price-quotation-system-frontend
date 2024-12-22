@@ -18,7 +18,6 @@
 // import { Button } from "@/components/ui/button";
 // import { cn } from "@/lib/utils";
 
-
 // interface Props {
 //   data: (hotelData: Hotel) => void;
 //   hotelName: string | undefined;
@@ -108,7 +107,6 @@
 
 // export default HotelDropdown;
 
-
 import React, { useEffect, useState } from "react";
 import { Check, ChevronsUpDown } from "lucide-react";
 import {
@@ -133,10 +131,7 @@ interface Props {
   hotelsToUpdate: Hotel | null;
 }
 
-const HotelDropdown: React.FC<Props> = ({
-  data,
-  hotelsToUpdate,
-}) => {
+const HotelDropdown: React.FC<Props> = ({ data, hotelsToUpdate }) => {
   const [groupedHotels, setGroupedHotels] = useState<any>({});
   const [selectedDestination, setSelectedDestination] = useState<string | null>(
     null
@@ -181,7 +176,6 @@ const HotelDropdown: React.FC<Props> = ({
       setGroupedHotels(grouped);
     }
   }, [hotels]);
-
 
   useEffect(() => {
     if (selectedHotel) data(selectedHotel);
@@ -245,28 +239,31 @@ const HotelDropdown: React.FC<Props> = ({
 
             {/* Destinations */}
             {currentStep === "destination" &&
-              Object.keys(groupedHotels).map((destination) => (
-                <CommandItem
-                  key={destination}
-                  value={destination}
-                  onSelect={() => handleDestinationSelect(destination)}
-                >
-                  <Check
-                    className={cn(
-                      "mr-2 h-4 w-4",
-                      selectedDestination === destination
-                        ? "opacity-100"
-                        : "opacity-0"
-                    )}
-                  />
-                  {destination}
-                </CommandItem>
-              ))}
+              Object.keys(groupedHotels)
+                .sort((a: string, b: string) => a.localeCompare(b))
+                .map((destination) => (
+                  <CommandItem
+                    key={destination}
+                    value={destination}
+                    onSelect={() => handleDestinationSelect(destination)}
+                  >
+                    <Check
+                      className={cn(
+                        "mr-2 h-4 w-4",
+                        selectedDestination === destination
+                          ? "opacity-100"
+                          : "opacity-0"
+                      )}
+                    />
+                    {destination}
+                  </CommandItem>
+                ))}
 
             {/* Areas */}
             {currentStep === "area" &&
-              Object.keys(groupedHotels[selectedDestination!] || {}).map(
-                (area) => (
+              Object.keys(groupedHotels[selectedDestination!] || {})
+                .sort((a, b) => a.localeCompare(b))
+                .map((area) => (
                   <CommandItem
                     key={area}
                     value={area}
@@ -280,13 +277,16 @@ const HotelDropdown: React.FC<Props> = ({
                     />
                     {area}
                   </CommandItem>
-                )
-              )}
+                ))}
 
             {/* Hotels */}
             {currentStep === "hotel" &&
-              groupedHotels[selectedDestination!]?.[selectedArea!]?.map(
-                (hotel: Hotel) => (
+              groupedHotels[selectedDestination!]?.[selectedArea!]
+                ?.slice()
+                .sort((a: Hotel, b: Hotel) =>
+                  a.hotelName.localeCompare(b.hotelName)
+                )
+                .map((hotel: Hotel) => (
                   <CommandItem
                     key={hotel.id}
                     value={hotel.hotelName}
@@ -302,8 +302,7 @@ const HotelDropdown: React.FC<Props> = ({
                     />
                     {hotel.hotelName}
                   </CommandItem>
-                )
-              )}
+                ))}
           </CommandList>
         </Command>
       </PopoverContent>
