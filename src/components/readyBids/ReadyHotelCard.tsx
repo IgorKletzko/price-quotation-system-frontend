@@ -126,7 +126,7 @@ const ReadyHotelCard: React.FC<ReadyHotelCardProps> = ({ data }) => {
                     onClick={toggleDescription}
                     className="text-blue-500 underline hover:text-blue-700"
                   >
-                    {showFullDescription ? "קרא פחות" : "קרא עוד"}
+                    {showFullDescription ? "הסתר" : "קרא עוד"}
                   </button>
                 </div>
               )}
