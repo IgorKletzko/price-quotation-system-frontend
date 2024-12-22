@@ -181,7 +181,6 @@
 
 // export default HotelDropdown;
 
-
 import React, { useEffect, useState } from "react";
 import { Check, ChevronsUpDown } from "lucide-react";
 import {
@@ -218,23 +217,8 @@ const HotelDropdown: React.FC<Props> = ({ data }) => {
   const [open, setOpen] = useState(false);
   const { hotels } = useGetHotels();
 
-  console.log(hotels)
+  console.log(hotels);
 
-  // useEffect(() => {
-  //   if (hotels) {
-  //     // Group hotels by destination and area
-  //     const grouped = hotels.reduce((acc: any, hotel: Hotel) => {
-  //       if (!hotel.destination || !hotel.area) return acc; // Skip invalid data
-  //       if (!acc[hotel.destination]) acc[hotel.destination] = {};
-  //       if (!acc[hotel.destination][hotel.area])
-  //         acc[hotel.destination][hotel.area] = [];
-  //       acc[hotel.destination][hotel.area].push(hotel);
-  //       return acc;
-  //     }, {});
-
-  //     setGroupedHotels(grouped);
-  //   }
-  // }, [hotels]);
   useEffect(() => {
     if (hotels) {
       const grouped = hotels.reduce((acc: any, hotel: Hotel) => {
@@ -250,7 +234,6 @@ const HotelDropdown: React.FC<Props> = ({ data }) => {
       setGroupedHotels(grouped);
     }
   }, [hotels]);
-
 
   useEffect(() => {
     if (selectedHotel) data(selectedHotel);
@@ -314,28 +297,31 @@ const HotelDropdown: React.FC<Props> = ({ data }) => {
 
             {/* Destinations */}
             {currentStep === "destination" &&
-              Object.keys(groupedHotels).map((destination) => (
-                <CommandItem
-                  key={destination}
-                  value={destination}
-                  onSelect={() => handleDestinationSelect(destination)}
-                >
-                  <Check
-                    className={cn(
-                      "mr-2 h-4 w-4",
-                      selectedDestination === destination
-                        ? "opacity-100"
-                        : "opacity-0"
-                    )}
-                  />
-                  {destination}
-                </CommandItem>
-              ))}
+              Object.keys(groupedHotels)
+                .sort((a: string, b:string) => a.localeCompare(b))
+                .map((destination) => (
+                  <CommandItem
+                    key={destination}
+                    value={destination}
+                    onSelect={() => handleDestinationSelect(destination)}
+                  >
+                    <Check
+                      className={cn(
+                        "mr-2 h-4 w-4",
+                        selectedDestination === destination
+                          ? "opacity-100"
+                          : "opacity-0"
+                      )}
+                    />
+                    {destination}
+                  </CommandItem>
+                ))}
 
             {/* Areas */}
             {currentStep === "area" &&
-              Object.keys(groupedHotels[selectedDestination!] || {}).map(
-                (area) => (
+              Object.keys(groupedHotels[selectedDestination!] || {})
+                .sort((a, b) => a.localeCompare(b))
+                .map((area) => (
                   <CommandItem
                     key={area}
                     value={area}
@@ -349,13 +335,14 @@ const HotelDropdown: React.FC<Props> = ({ data }) => {
                     />
                     {area}
                   </CommandItem>
-                )
-              )}
+                ))}
 
             {/* Hotels */}
             {currentStep === "hotel" &&
-              groupedHotels[selectedDestination!]?.[selectedArea!]?.map(
-                (hotel: Hotel) => (
+              groupedHotels[selectedDestination!]?.[selectedArea!]
+                ?.slice()
+                .sort((a: Hotel, b: Hotel) => a.hotelName.localeCompare(b.hotelName))
+                .map((hotel: Hotel) => (
                   <CommandItem
                     key={hotel.id}
                     value={hotel.hotelName}
@@ -371,8 +358,7 @@ const HotelDropdown: React.FC<Props> = ({ data }) => {
                     />
                     {hotel.hotelName}
                   </CommandItem>
-                )
-              )}
+                ))}
           </CommandList>
         </Command>
       </PopoverContent>
