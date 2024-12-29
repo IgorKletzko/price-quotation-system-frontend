@@ -59,6 +59,10 @@ module.exports = {
 
         blueSky: "#61dbf8",
         blueSea: "#4fa7af",
+
+        customHotelCard1: "rgb(80,172,193)",
+        customHotelCard2: "rgb(39,169,199)"
+
       },
       borderRadius: {
         lg: "var(--radius)",
