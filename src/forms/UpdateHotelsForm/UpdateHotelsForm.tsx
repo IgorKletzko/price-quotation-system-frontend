@@ -230,13 +230,15 @@ const UpdateHotelsForm = () => {
                   disabled={isUploading}
                 />
               </div>
-              
+
               <div className="flex flex-col sm:flex-row sm:gap-4">
                 <h2 className="sm:text-2xl w-[60px]">slug:</h2>
                 <input
                   dir="ltr"
                   {...methods.register("slug")}
                   className="border text-sm sm:text-xl"
+                  defaultValue={hotel.slug}
+                  disabled={isUploading}
                 />
               </div>
 
