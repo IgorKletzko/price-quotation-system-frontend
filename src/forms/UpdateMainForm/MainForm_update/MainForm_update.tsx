@@ -273,6 +273,7 @@ const MainBidForm_Update: React.FC<MainBidForm_UpdateProps> = ({
             ...item,
             hotelName: hotelDataEntry.selectedHotel?.hotelName,
             hotelDescription: hotelDataEntry.selectedHotel?.hotelDescription,
+            slug: hotelDataEntry.selectedHotel?.slug,
             stars: hotelDataEntry.selectedHotel?.stars,
             images: hotelDataEntry.selectedHotel?.images,
 
