@@ -108,34 +108,66 @@ const HotelCard: React.FC<HotelCardProps> = ({
 
 
   // New: Function to redirect to Booking.com
- const handleRedirectToBooking = () => {
-   if (!selectedHotel) {
-     alert("Please select a hotel.");
-     return;
-   }
+  // const handleRedirectToBooking = () => {
+  //   if (!selectedHotel) {
+  //     alert("Please select a hotel.");
+  //     return;
+  //   }
 
-   const hotelSlug = selectedHotel.slug;
-   const checkInDate = watch(`items.${index}.checkInDate`);
-   const checkOutDate = watch(`items.${index}.checkOutDate`);
+  //   const hotelSlug = selectedHotel.slug;
+  //   const checkInDate = watch(`items.${index}.checkInDate`);
+  //   const checkOutDate = watch(`items.${index}.checkOutDate`);
 
-   if (!checkInDate || !checkOutDate) {
-     alert("Please select check-in and check-out dates.");
-     return;
-   }
+  //   if (!checkInDate || !checkOutDate) {
+  //     alert("Please select check-in and check-out dates.");
+  //     return;
+  //   }
 
-   // Format dates to local timezone (YYYY-MM-DD)
-   const formatToLocalDate = (date: Date) =>
-     new Date(date.getTime() - date.getTimezoneOffset() * 60000)
-       .toISOString()
-       .split("T")[0];
+  //   const formattedCheckInDate = new Date(checkInDate)
+  //     .toISOString()
+  //     .split("T")[0];
+  //   const formattedCheckOutDate = new Date(checkOutDate)
+  //     .toISOString()
+  //     .split("T")[0];
 
-   const formattedCheckInDate = formatToLocalDate(new Date(checkInDate));
-   const formattedCheckOutDate = formatToLocalDate(new Date(checkOutDate));
+  //   const bookingUrl = `https://www.booking.com/hotel/th/${hotelSlug}.html?checkin=${formattedCheckInDate}&checkout=${formattedCheckOutDate}`;
 
-   const bookingUrl = `https://www.booking.com/hotel/th/${hotelSlug}.html?checkin=${formattedCheckInDate}&checkout=${formattedCheckOutDate}`;
+  //   window.open(bookingUrl, "_blank");
+  // };
+  const handleRedirectToBooking = () => {
+    if (!selectedHotel) {
+      alert("Please select a hotel.");
+      return;
+    }
 
-   window.open(bookingUrl, "_blank");
- };
+    const hotelSlug = selectedHotel.slug;
+    const checkInDate = watch(`items.${index}.checkInDate`);
+    const checkOutDate = watch(`items.${index}.checkOutDate`);
+
+    if (!checkInDate || !checkOutDate) {
+      alert("Please select check-in and check-out dates.");
+      return;
+    }
+
+    // Helper to format date as YYYY-MM-DD in the local timezone
+    const formatDateToLocalTimezone = (date: Date): string => {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-based
+      const day = String(date.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    };
+
+    const formattedCheckInDate = formatDateToLocalTimezone(
+      new Date(checkInDate)
+    );
+    const formattedCheckOutDate = formatDateToLocalTimezone(
+      new Date(checkOutDate)
+    );
+
+    const bookingUrl = `https://www.booking.com/hotel/th/${hotelSlug}.html?checkin=${formattedCheckInDate}&checkout=${formattedCheckOutDate}`;
+
+    window.open(bookingUrl, "_blank");
+  };
 
 
 
