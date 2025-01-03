@@ -54,7 +54,6 @@ const HotelCard: React.FC<HotelCardProps> = ({
     items: HotelCardFields[];
   }>();
 
-
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id });
 
@@ -62,30 +61,31 @@ const HotelCard: React.FC<HotelCardProps> = ({
     transform: CSS.Transform.toString(transform),
     transition,
   };
-useEffect(() => {
-  const checkInDate = watch(`items.${index}.checkInDate`);
-  const checkOutDate = watch(`items.${index}.checkOutDate`);
-  const nights = calculateNights(checkInDate, checkOutDate);
+  useEffect(() => {
+    const checkInDate = watch(`items.${index}.checkInDate`);
+    const checkOutDate = watch(`items.${index}.checkOutDate`);
+    const nights = calculateNights(checkInDate, checkOutDate);
 
-  if (selectedRooms.length > 0) {
-    const totalSum = selectedRooms.reduce((acc, room) => {
-      return acc + (room.nightPrice || 0) * (room.numberOfRooms || 1) * nights;
-    }, 0);
+    if (selectedRooms.length > 0) {
+      const totalSum = selectedRooms.reduce((acc, room) => {
+        return (
+          acc + (room.nightPrice || 0) * (room.numberOfRooms || 1) * nights
+        );
+      }, 0);
 
-    setValue(getFieldPath(index, "sum" as keyof HotelCardFields), totalSum);
-  } else {
-    setValue(getFieldPath(index, "sum" as keyof HotelCardFields), 0);
-  }
+      setValue(getFieldPath(index, "sum" as keyof HotelCardFields), totalSum);
+    } else {
+      setValue(getFieldPath(index, "sum" as keyof HotelCardFields), 0);
+    }
 
-  onDataChange(index, {selectedHotel, selectedRooms})
-
-}, [
-  selectedHotel,
-  selectedRooms,
-  watch(`items.${index}.checkInDate`),
-  watch(`items.${index}.checkOutDate`),
-  index,
-]);
+    onDataChange(index, { selectedHotel, selectedRooms });
+  }, [
+    selectedHotel,
+    selectedRooms,
+    watch(`items.${index}.checkInDate`),
+    watch(`items.${index}.checkOutDate`),
+    index,
+  ]);
 
   const receiveDataFromInput = (hotelData: Hotel) => {
     setSelectedHotel(hotelData);
@@ -106,8 +106,41 @@ useEffect(() => {
     return 0;
   };
 
+
+  // New: Function to redirect to Booking.com
+  const handleRedirectToBooking = () => {
+    if (!selectedHotel) {
+      alert("Please select a hotel.");
+      return;
+    }
+
+    const hotelSlug = selectedHotel.slug;
+    const checkInDate = watch(`items.${index}.checkInDate`);
+    const checkOutDate = watch(`items.${index}.checkOutDate`);
+
+    if (!checkInDate || !checkOutDate) {
+      alert("Please select check-in and check-out dates.");
+      return;
+    }
+
+    const formattedCheckInDate = new Date(checkInDate)
+      .toISOString()
+      .split("T")[0];
+    const formattedCheckOutDate = new Date(checkOutDate)
+      .toISOString()
+      .split("T")[0];
+
+    const bookingUrl = `https://www.booking.com/hotel/th/${hotelSlug}.html?checkin=${formattedCheckInDate}&checkout=${formattedCheckOutDate}`;
+
+    window.open(bookingUrl, "_blank");
+  };
+
+
   const handleAddRoom = () => {
-    setRooms((rooms) => [...rooms, { roomType: "", roomDescription: "", agentNotes: "",  images: [], id: "" }]);
+    setRooms((rooms) => [
+      ...rooms,
+      { roomType: "", roomDescription: "", agentNotes: "", images: [], id: "" },
+    ]);
   };
 
   const handleRemoveRoom = (roomIndex: number) => {
@@ -123,7 +156,7 @@ useEffect(() => {
       newRooms[index] = {
         ...newRooms[index],
         ...roomData,
-      }
+      };
       return newRooms;
     });
   };
@@ -200,7 +233,7 @@ useEffect(() => {
                 // hotelName={selectedHotel?.hotelName}
               />
 
-              <div className="flex md:flex-row flex-col justify-between items-center"> 
+              <div className="flex md:flex-row flex-col justify-between items-center">
                 <div className="flex flex-col sm:flex-row">
                   <p>תאריכים:</p>
                   <Controller
@@ -275,7 +308,15 @@ useEffect(() => {
               </Button>
             </div>
 
-            <div className="flex justify-end">
+            <div className="flex justify-between">
+              <div className="w-[100px]"></div>
+              <Button
+                type="button"
+                onClick={handleRedirectToBooking} // Added button for Booking.com redirect
+                className="bg-blue-500 text-white px-4 py-2 rounded mt-4"
+              >
+                Go to Booking.com
+              </Button>
               <RemoveButton onRemove={handleDelete} text="מחק בית מלון" />
             </div>
           </AccordionContent>

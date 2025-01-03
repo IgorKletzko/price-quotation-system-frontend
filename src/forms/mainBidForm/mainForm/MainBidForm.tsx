@@ -78,6 +78,7 @@ const MainBidForm: React.FC = () => {
       hotelDescription: "",
       destination: "",
       area: "",
+      slug: "",
       stars: 0,
       images: [],
       rooms: [],
@@ -161,7 +162,7 @@ const MainBidForm: React.FC = () => {
 
    return totalSum;
  };
-
+  
 
   const { createForm, isLoading, isSuccess, error } = useCreateMainBidForm();
   const { data } = useGetMainBidForms();
@@ -200,6 +201,7 @@ const MainBidForm: React.FC = () => {
             ...item,
             hotelName: hotelDataEntry.selectedHotel?.hotelName,
             hotelDescription: hotelDataEntry.selectedHotel?.hotelDescription,
+            slug: hotelDataEntry.selectedHotel?.slug,
             stars: hotelDataEntry.selectedHotel?.stars,
             images: hotelDataEntry.selectedHotel?.images,
 

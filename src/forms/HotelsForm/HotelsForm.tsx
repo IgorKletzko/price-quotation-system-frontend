@@ -114,6 +114,8 @@ const HotelsForm = () => {
     return uploadedUrls;
   };
 
+
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = methods.getValues();
@@ -150,6 +152,7 @@ const HotelsForm = () => {
           hotelDescription: formData.hotelDescription,
           destination: formData.destination,
           area: formData.area,
+          slug: formData.slug,
           stars: formData.stars,
           images: cloudinaryHotelUrls,
           rooms: cloudinaryRoomUrls,
@@ -226,6 +229,16 @@ const HotelsForm = () => {
                     dir="ltr"
                     {...methods.register("hotelName")}
                     className="border text-sm sm:text-xl w-[400px]"
+                  />
+                </div>
+
+               
+                <div className="flex flex-col sm:flex-row sm:gap-4">
+                  <h2 className="sm:text-2xl w-[60px]">slug:</h2>
+                  <input
+                    dir="ltr"
+                    {...methods.register("slug")}
+                    className="border text-sm sm:text-xl"
                   />
                 </div>
 

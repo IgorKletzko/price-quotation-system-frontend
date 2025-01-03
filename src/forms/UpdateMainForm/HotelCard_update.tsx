@@ -49,12 +49,13 @@ const HotelCard_Update: React.FC<HotelCardProps> = ({
   initialSelectedHotel,
   initialSelectedRooms,
 }) => {
-
   const [rooms, setRooms] = useState<Room[]>(initialSelectedRooms);
   // console.log("rooms", rooms);
-  const [selectedHotel, setSelectedHotel] = useState<Hotel | null>(initialSelectedHotel);
+  const [selectedHotel, setSelectedHotel] = useState<Hotel | null>(
+    initialSelectedHotel
+  );
 
-  // console.log("selectedHotel------", selectedHotel);
+  console.log("selectedHotel------", selectedHotel);
 
   const [selectedRooms, setSelectedRooms] =
     useState<Room[]>(initialSelectedRooms);
@@ -117,8 +118,39 @@ const HotelCard_Update: React.FC<HotelCardProps> = ({
     return 0;
   };
 
+  // New: Function to redirect to Booking.com
+  const handleRedirectToBooking = () => {
+    if (!selectedHotel) {
+      alert("Please select a hotel.");
+      return;
+    }
+
+    const hotelSlug = selectedHotel.slug;
+    const checkInDate = watch(`items.${index}.checkInDate`);
+    const checkOutDate = watch(`items.${index}.checkOutDate`);
+
+    if (!checkInDate || !checkOutDate) {
+      alert("Please select check-in and check-out dates.");
+      return;
+    }
+
+    const formattedCheckInDate = new Date(checkInDate)
+      .toISOString()
+      .split("T")[0];
+    const formattedCheckOutDate = new Date(checkOutDate)
+      .toISOString()
+      .split("T")[0];
+
+    const bookingUrl = `https://www.booking.com/hotel/th/${hotelSlug}.html?checkin=${formattedCheckInDate}&checkout=${formattedCheckOutDate}`;
+
+    window.open(bookingUrl, "_blank");
+  };
+
   const handleAddRoom = () => {
-    setRooms((rooms) => [...rooms, { roomType: "", roomDescription: "", agentNotes: "", images: [], id: "" }]);
+    setRooms((rooms) => [
+      ...rooms,
+      { roomType: "", roomDescription: "", agentNotes: "", images: [], id: "" },
+    ]);
   };
 
   const handleRemoveRoom = (roomIndex: number) => {
@@ -286,7 +318,15 @@ const HotelCard_Update: React.FC<HotelCardProps> = ({
               </Button>
             </div>
 
-            <div className="flex justify-end">
+            <div className="flex justify-between">
+              <div className="w-[100px]"></div>
+              <Button
+                type="button"
+                onClick={handleRedirectToBooking} // Added button for Booking.com redirect
+                className="bg-blue-500 text-white px-4 py-2 rounded mt-4"
+              >
+                Go to Booking.com
+              </Button>
               <RemoveButton onRemove={handleDelete} text="מחק בית מלון" />
             </div>
           </AccordionContent>

@@ -15,6 +15,7 @@ export interface HotelFormData {
   hotelDescription: string;
   destination: string;
   area: string;
+  slug: string;
   stars: number;
   images: string[];
   rooms: RoomFormData[];
@@ -38,6 +39,7 @@ export interface Hotel {
   hotelDescription: string;
   destination: string;
   area: string;
+  slug: string;
   stars: number;
   images: string[];
   rooms: Room[];
@@ -52,6 +54,7 @@ export interface HotelCardFields {
   hotelDescription: string;
   destination: string;
   area: string;
+  slug: string;
   stars: number;
   images: string[];
   rooms: RoomFormData[];

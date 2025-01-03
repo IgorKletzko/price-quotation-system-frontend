@@ -49,6 +49,7 @@ type HotelResponse = {
   hotelDescription: string;
   destination: string;
   area: string;
+  slug: string;
   stars: number;
   images: string[];
   rooms: HotelRoom[];

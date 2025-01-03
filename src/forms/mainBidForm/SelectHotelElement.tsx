@@ -217,7 +217,7 @@ const HotelDropdown: React.FC<Props> = ({ data }) => {
   const [open, setOpen] = useState(false);
   const { hotels } = useGetHotels();
 
-  console.log(hotels);
+  // console.log(hotels);
 
   useEffect(() => {
     if (hotels) {
