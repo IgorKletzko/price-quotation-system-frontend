@@ -115,7 +115,7 @@ const ReadyBid = () => {
           isBidApproved={processedBidForms?.isBidApproved}
           fakeCountNumber={processedBidForms?.fakeCountNumber}
         />
-        <div className="space-y-3 xl:px-52">
+        <div className="md:space-y-3 space-y-2 xl:px-52">
           {processedBidForms?.sortedElements.map((element, index) => {
             switch (element.type) {
               case "flight":
