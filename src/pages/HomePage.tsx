@@ -2,7 +2,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { Link } from "react-router-dom";
 
 const HomePage = () => {
-  const {loginWithRedirect, isAuthenticated, logout} = useAuth0()
+  const { loginWithRedirect, isAuthenticated, logout } = useAuth0();
   return (
     <>
       {!isAuthenticated && (
@@ -41,7 +41,7 @@ const HomePage = () => {
               to="/hotels"
               className="border-2 border-black text-center w-40 h-10 flex justify-center items-center  hover:border-blue-500"
             >
-              להוסיף בתי מלון
+              בתי מלון
             </Link>
 
             <Link
