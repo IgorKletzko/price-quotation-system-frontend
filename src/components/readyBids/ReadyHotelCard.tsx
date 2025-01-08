@@ -78,7 +78,7 @@ const ReadyHotelCard: React.FC<ReadyHotelCardProps> = ({ data }) => {
       <Accordion type="single" collapsible className="">
         <AccordionItem key={data._id} value={data._id}>
           <AccordionTrigger
-            className={`flex flex-col md:flex-row bg-customHotelCard2  text-white p-1 sm:p-3 hover:no-underline md:font-normal text-sm sm:text-lg border-2 hover:border-customHotelCard2 ${
+            className={`flex flex-col md:flex-row bg-red-500  text-white p-1 sm:p-3 hover:no-underline md:font-normal text-sm sm:text-lg border-2 hover:border-customHotelCard2 ${
               isOpen1 ? "rounded-t-full" : "rounded-full"
             }`}
             onClick={handleToggle1}
